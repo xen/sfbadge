@@ -1,7 +1,7 @@
 import os
 import datetime
 from flask import Flask
-from flask import request
+from flask import request, redirect
 import requests
 import simplejson
 
@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'Hello World!'
+    redirect('https://github.com/xen/sfbadge')
 
 @app.route('/sf/<project>/json')
 def getjson(project):
