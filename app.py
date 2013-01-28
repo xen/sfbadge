@@ -17,7 +17,7 @@ def getn(project):
     weekago = today-datetime.timedelta(days=7)
     payload = {
         'start_date': request.args.get('start_date', weekago.strftime("%Y-%m-%d")), #2013-01-01&
-        'end_date': request.args.get('start_date', today.strftime("%Y-%m-%d")), 
+        'end_date': request.args.get('start_date', today.strftime("%Y-%m-%d")),
     }
     r = requests.get('http://sourceforge.net/projects/'+project+'/files/stats/json?', params=payload)
     print r.url
@@ -37,7 +37,7 @@ def getall(project):
     weekago = today-datetime.timedelta(days=7)
     payload = {
         'start_date': request.args.get('start_date', weekago.strftime("%Y-%m-%d")), #2013-01-01&
-        'end_date': request.args.get('start_date', today.strftime("%Y-%m-%d")), 
+        'end_date': request.args.get('start_date', today.strftime("%Y-%m-%d")),
     }
     r = requests.get('http://sourceforge.net/projects/'+project+'/files/stats/json?', params=payload)
     print r.url
@@ -50,6 +50,11 @@ def getall(project):
         }
     else:
         return r.json()
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
