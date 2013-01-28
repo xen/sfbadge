@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    redirect('https://github.com/xen/sfbadge')
+    return redirect('https://github.com/xen/sfbadge')
 
 @app.route('/sf/<project>/json')
 def getjson(project):
