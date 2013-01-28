@@ -11,8 +11,8 @@ app = Flask(__name__)
 def hello():
     return 'Hello World!'
 
-@app.route('/sf/<project>/n')
-def getn(project):
+@app.route('/sf/<project>/json')
+def getjson(project):
     today = datetime.date.today()
     weekago = today-datetime.timedelta(days=7)
     payload = {
@@ -29,9 +29,10 @@ def getn(project):
             'total': r.json()['total'],
         }
     else:
-        return str(r.json()['total'])
+        return simplejson.dumps({'total': r.json()['total']})
 
-@app.route('/sf/<project>/all')
+
+@app.route('/sf/<project>/fulljson')
 def getall(project):
     today = datetime.date.today()
     weekago = today-datetime.timedelta(days=7)
