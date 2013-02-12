@@ -47,14 +47,19 @@ def update(git_user, git_repo, date_since, date_until):
     return len(r.json())
 
 WEEK = 7
-
+MONTH = 31
 for (pkid, git_user, git_repo, last_update, first_time) in result:
     base = datetime.datetime.today()
     if first_time:
         print([ update(git_user, git_repo, base - datetime.timedelta(days=x+1),
-            base - datetime.timedelta(days=x)) for x in range(0,WEEK) ])
+            base - datetime.timedelta(days=x)) for x in range(0, MONTH) ])
         cur.execute("UPDATE updates SET first_time=FALSE WHERE pkid = %(pkid)s", {'pkid':pkid})
     else:
+        cur.execute("DELETE FROM commits WHERE git_user=%(git_user)s AND git_repo=%(git_repo)s AND forday=%(forday)s;", {
+                'git_user': git_user,
+                'git_repo': git_repo,
+                'forday': base,
+            })
         print(update(git_user, git_repo, base - datetime.timedelta(days=1), base))
 
 conn.commit()

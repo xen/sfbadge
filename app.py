@@ -84,11 +84,12 @@ class Commits(db.Model):
 @app.route('/commits/<git_user>/<git_repo>/json')
 def commits(git_user, git_repo):
     WEEK = 7
+    MONTH = 31
     data = {
         'commits': sum([x.count for x in db.session.query(Commits).\
                       select_from(Commits).filter(Commits.git_user==git_user).\
                       filter(Commits.git_repo==git_repo).\
-                      order_by(Commits.forday.desc()).all()[0:WEEK]
+                      order_by(Commits.forday.desc()).all()[0:MONTH]
                     ]),
     }
 
